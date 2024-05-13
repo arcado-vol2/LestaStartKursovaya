@@ -43,6 +43,18 @@ void UHealthComponent::TakeDamage(AActor* DamageActor, float DamageAmount, ACont
 
 }
 
+void UHealthComponent::SetHealth(float amount)
+{
+	if (!GetOwner()->HasAuthority())
+	{
+		return;
+	}
+	CurrentHealth = FMath::Clamp(amount, 0.0f, MaxHealth);
+	OnHealthChangeDelegate.Broadcast(CurrentHealth, MaxHealth);
+	IsAliveCheck();
+}
+
+
 void UHealthComponent::IsAliveCheck()
 {
 	if (CurrentHealth == 0)
