@@ -15,10 +15,18 @@ class LESTASTART_API ALestaGameMode : public AGameModeBase
 public:
 	ALestaGameMode();
 protected:
-	UPROPERTY()
+	virtual void BeginPlay() override;
 	//Alive players array
+	UPROPERTY()
 	TArray<ALestaCharacter*> PlayersCharactersList;
-
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<class AEnemy> CubeClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<class AEnemy> SentryClass;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TArray<FTransform> SpawnPoints;
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float SpawnTolerance = 10.0f;
 public:
 	UFUNCTION()
 	virtual FTeam AddPlayer(ALestaCharacter* NewPlayer);

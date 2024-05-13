@@ -21,7 +21,7 @@ struct FTeam
 {
 	GENERATED_BODY()
 	UPROPERTY(EditDefaultsOnly)
-	TEnumAsByte<ETeams> ThisTeam;
+	TEnumAsByte<ETeams> ThisTeam = ETeams::Neutral;
 	UPROPERTY(EditDefaultsOnly)
  	TArray<TEnumAsByte<ETeams>> Allies;
 	UPROPERTY(EditDefaultsOnly)
@@ -29,7 +29,7 @@ struct FTeam
 	UPROPERTY(EditDefaultsOnly)
 	TArray<TEnumAsByte<ETeams>> Neutrals;
 	UPROPERTY(EditDefaultsOnly)
-	FLinearColor TeamColor;
+	FLinearColor TeamColor = FLinearColor(1, 1, 1);
 };
 
 UCLASS(ClassGroup=(Custom), meta=(BlueprintSpawnableComponent))

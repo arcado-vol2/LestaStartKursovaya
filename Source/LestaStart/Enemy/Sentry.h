@@ -10,8 +10,8 @@
 UENUM()
 enum ESentryStates : uint8
 {
-	Idle UMETA(DisplayName = "Idle"),
-	Combat UMETA(DisplayName = "Combat"),
+	SentryIdle UMETA(DisplayName = "Idle"),
+	SentryCombat UMETA(DisplayName = "Combat"),
 };
 
 UCLASS()

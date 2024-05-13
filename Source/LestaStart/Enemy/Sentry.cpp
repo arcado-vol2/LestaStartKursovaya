@@ -29,14 +29,13 @@ ASentry::ASentry()
 	FaceDirection = CreateDefaultSubobject<UArrowComponent>(TEXT("Face direction"));
 	FaceDirection->SetupAttachment(Muzzle);
 	FaceDirection->SetIsReplicated(true);
-	
-	CurrentState = ESentryStates::Idle;
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	
 }
 
 void ASentry::BeginPlay()
 {
+	CurrentState = ESentryStates::SentryIdle;
 	Super::BeginPlay();
 	SetReplicateMovement(true);
 	Head->SetIsReplicated(true);
@@ -50,7 +49,7 @@ void ASentry::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	switch (CurrentState)
 	{
-	case ESentryStates::Combat:
+	case ESentryStates::SentryCombat:
 		if (CurrentTarget)
 		{
 			if (HasAuthority())
@@ -73,7 +72,7 @@ void ASentry::Tick(float DeltaTime)
 		}
 		break;
 
-	case ESentryStates::Idle:
+	case ESentryStates::SentryIdle:
 		IdleRotate(DeltaTime);
 		break;
 

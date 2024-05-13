@@ -18,6 +18,8 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UAIPerceptionComponent* AIPerceptionComponent;
+
+	void OnPossess(APawn* InPawn) override;
 	
 	virtual void BeginPlay() override;
 	

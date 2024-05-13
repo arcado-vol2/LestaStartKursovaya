@@ -19,6 +19,23 @@ ASentryController::ASentryController()
     AIPerceptionComponent->OnTargetPerceptionUpdated.AddDynamic(this, &ASentryController::OnPerceptionTargetUpdate);
 }
 
+void ASentryController::OnPossess(APawn* InPawn)
+{
+    Super::OnPossess(InPawn);
+    ASentry* SentryPawn = Cast<ASentry>(InPawn);
+    if (SentryPawn)
+    {
+        CurrentPawn = SentryPawn;
+        CurrentPawn->SetRotationAngle(MaxSightAngle);
+    }
+    else
+    {
+        UE_LOG(LogInput, Error, TEXT("Failed to possess ASentry pawn!"));
+    }
+    
+}
+
+
 void ASentryController::BeginPlay()
 {
     Super::BeginPlay();
@@ -35,11 +52,10 @@ void ASentryController::OnPerceptionTargetUpdate(AActor* Actor, FAIStimulus Stim
     {
         return;
     }
-
     if (Stimulus.WasSuccessfullySensed())
     {
         WeakTargets.Add(Actor);
-        CurrentPawn->SetCurrentState(ESentryStates::Combat);
+        CurrentPawn->SetCurrentState(ESentryStates::SentryCombat);
         CurrentPawn->SetCurrentTarget(GetClosestTarget());
     }
     else
@@ -75,7 +91,7 @@ void ASentryController::RemoveTarget(AActor* Target)
     if (WeakTargets.Num() == 0)
     {
         CurrentPawn->SetCurrentTarget(nullptr);
-        CurrentPawn->SetCurrentState(ESentryStates::Idle);
+        CurrentPawn->SetCurrentState(ESentryStates::SentryIdle);
     }
     else if (CurrentPawn->GetCurrentTarget() == Target)
     {
