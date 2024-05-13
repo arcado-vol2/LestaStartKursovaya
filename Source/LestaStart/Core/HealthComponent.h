@@ -34,6 +34,8 @@ public:
 	UFUNCTION()
 	virtual void TakeDamage(AActor* DamageActor, float DamageAmount, AController* InstigatedBy);
 	UFUNCTION()
+	virtual void SetHealth(float amount);
+	UFUNCTION()
 	float GetCurrentHealth() const {return CurrentHealth;}
 	UFUNCTION()
 	float GetMaxHealth() const {return MaxHealth;}

@@ -54,22 +54,7 @@ void ALestaCharacter::BeginPlay()
 		}
 		SetupWeaponUI(nullptr);
 	}
-
-	//Create floating health UI
-	if (HealthWidget)
-	{
-		if (IsLocallyControlled())
-		{
-			HealthWidget->SetVisibility(false);
-			HealthWidget->RemoveFromRoot();
-			HealthWidget = nullptr;
-		}
-		else if (HealthComponent)
-		{
-			HealthComponent->OnHealthChangeDelegate.AddDynamic(HealthWidget, &UFloatingUIComponent::SetHealth);
-			HealthWidget->SetStartValues(HealthComponent->GetCurrentHealth(), HealthComponent->GetMaxHealth(), TeamComponent->GetTeamColor());
-		}
-	}
+	
 
 	//Crate weapons
 	if (HasAuthority())
@@ -102,6 +87,22 @@ void ALestaCharacter::BeginPlay()
 		if (TeamComponent)
 		{
 			TeamComponent->SetCurrentTeam(MyTeam);
+		}
+	}
+
+	//Create floating health UI
+	if (HealthWidget)
+	{
+		if (IsLocallyControlled())
+		{
+			HealthWidget->SetVisibility(false);
+			HealthWidget->RemoveFromRoot();
+			HealthWidget = nullptr;
+		}
+		else if (HealthComponent && TeamComponent)
+		{
+			HealthComponent->OnHealthChangeDelegate.AddDynamic(HealthWidget, &UFloatingUIComponent::SetHealth);
+			HealthWidget->SetStartValues(HealthComponent->GetCurrentHealth(), HealthComponent->GetMaxHealth(), TeamComponent->GetTeamColor());
 		}
 	}
 	
